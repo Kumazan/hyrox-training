@@ -392,6 +392,8 @@
   .medium2 .ch-list li::before { color: var(--cyan); }
   .medium .ch-list li::before { color: var(--accent2); }
 
+  .ch-list[style*="--list-color"] li::before { color: var(--list-color, var(--accent)); }
+
   .strategy-box {
     background: rgba(0,0,0,0.3);
     border: 1px solid var(--border);
@@ -901,7 +903,70 @@
   <div class="section-header">
     <div class="section-tag">CHAPTER 02</div>
     <h2 class="section-title">挑戰攻略</h2>
-    <p style="color:var(--text2); font-size:0.9rem; margin-top:0.5rem;">四關連環殺。熟悉每一關，才能在跑完 3.5K 後撐著完賽。</p>
+    <p style="color:var(--text2); font-size:0.9rem; margin-top:0.5rem;">先跑 3.5K，再闖四關。從跑步開始，每一關都有對應攻略。</p>
+  </div>
+
+  <!-- RUNNING 3.5K -->
+  <div class="challenge-card" id="card-running" style="border-left-color: var(--gold);">
+    <div class="challenge-header" onclick="toggleCard('card-running')">
+      <div class="ch-left">
+        <div class="ch-emoji">🏃</div>
+        <div>
+          <div class="ch-name">3.5K 路跑 <span class="hard-badge" style="background:var(--gold);color:#000;">新手必讀</span></div>
+          <div class="ch-meta">3.5 公里 · 第一個要完成的關卡</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span class="ch-penalty" style="color:var(--gold);border-color:var(--gold);">起點</span>
+        <span class="ch-toggle">▼</span>
+      </div>
+    </div>
+    <div class="challenge-body">
+      <div class="ch-section-title">📢 零跑步經驗？別怕</div>
+      <ul class="ch-list" style="--list-color:var(--gold);">
+        <li>3.5K 不是馬拉松。以慢跑來說大概 23-25 分鐘就能跑完</li>
+        <li>你不需要跑「快」——你的目標是<strong>省力完成</strong>，後面還有四關等你</li>
+        <li>走跑交替完全合法！跑 2-3 分鐘、走 1 分鐘，這就是新手最好的策略</li>
+        <li>比賽時會有腎上腺素，體感會比訓練時輕鬆</li>
+      </ul>
+
+      <div class="ch-section-title">🔧 跑步姿勢基礎</div>
+      <ul class="ch-list" style="--list-color:var(--gold);">
+        <li><strong>身體微前傾</strong>：想像有條線從頭頂拉著你，身體自然前傾 5-10 度，利用重力帶動前進</li>
+        <li><strong>腳掌落地</strong>：中足或前足著地（不要用腳跟大力踩地），減少衝擊力。新手可以先從自然落地開始，不用硬改</li>
+        <li><strong>步頻 > 步幅</strong>：小步快跑比大步慢跑更省力。理想步頻約 170-180 步/分鐘</li>
+        <li><strong>手臂自然擺動</strong>：手肘彎 90 度，前後擺（不要左右晃），擺手幫助穩定身體</li>
+        <li><strong>肩膀放鬆</strong>：跑到一半覺得聳肩了就刻意「抖一抖」放鬆</li>
+        <li><strong>呼吸節奏</strong>：鼻吸嘴吐，跑慢的話 3 步吸 3 步吐，跑喘了改 2 步吸 2 步吐</li>
+      </ul>
+
+      <div class="ch-section-title">💪 從零開始的跑步訓練</div>
+      <ul class="ch-list" style="--list-color:var(--gold);">
+        <li><strong>第 1 週</strong>：走跑交替（跑 1 分鐘走 1 分鐘）× 20 分鐘，一週 2-3 次</li>
+        <li><strong>第 2 週</strong>：跑 2 分鐘走 1 分鐘，開始延長連續跑的時間</li>
+        <li><strong>第 3-4 週</strong>：嘗試連續慢跑 2K → 2.5K → 3K</li>
+        <li><strong>第 5 週</strong>：跑完 3.5K（完整距離），速度隨意，跑完就是勝利</li>
+        <li>⚠️ <strong>不要每天跑！</strong>休息日身體才會進步。一週 3 次就夠</li>
+        <li>⚠️ <strong>速度永遠不重要</strong>——能跑完就好，配速 7:00/km 完全 OK</li>
+      </ul>
+
+      <div class="ch-section-title">👟 裝備建議</div>
+      <ul class="ch-list" style="--list-color:var(--gold);">
+        <li>穿跑鞋，不要穿重訓鞋跑步（重訓鞋底硬，跑起來膝蓋會痛）</li>
+        <li>衣著排汗材質，不穿棉 T（濕了又重又不舒服）</li>
+        <li>如果會磨，重要部位貼 OK 繃或凡士林（乳頭、大腿內側）</li>
+      </ul>
+
+      <div class="ch-section-title">🏁 比賽日跑步策略</div>
+      <div class="strategy-box" style="border-left-color:var(--gold); color:var(--gold);">
+        🎯 配速目標：<strong>6:30 - 7:00 / km</strong>，約 23-25 分鐘跑完。<br><br>
+        • <strong>前 1K 慢慢來</strong>——起跑時人群興奮，不要被帶快<br>
+        • <strong>中間 1.5K</strong>——找到舒服配速維持，這段最重要<br>
+        • <strong>最後 1K</strong>——如果還有餘力微加速，沒有就維持<br>
+        • <strong>跑完後不要停下來</strong>——慢走喘口氣、喝水，讓心率稍微降再進關卡<br>
+        • 記住：跑步只是開胃菜，<strong>省 10% 體力給後面比衝快 1 分鐘更值得</strong>
+      </div>
+    </div>
   </div>
 
   <!-- FARMER WALK -->
@@ -1043,32 +1108,36 @@
       </div>
     </div>
     <div class="challenge-body">
-      <div class="ch-section-title">🔧 技術要領（規則是關鍵）</div>
+      <div class="ch-section-title">🔧 動作拆解（一步一步來）</div>
       <ul class="ch-list">
-        <li>💥 <strong>胸部必須碰地</strong>——這是硬規定</li>
-        <li>起身可以用<strong>踩步方式</strong>（不用跳起），省更多力氣</li>
-        <li>跳躍時雙腳同時起跳、同時落地</li>
-        <li>跳要往前，不要往上蹦</li>
-        <li>落地後不能走路，直接下一個波比</li>
-        <li>手放地時距腳最多 30cm，不要伸太遠</li>
+        <li><strong>起始</strong>：站好，雙腳與肩同寬</li>
+        <li><strong>下蹲</strong>：蹲下、雙手撐地（手距腳不超過 30cm）</li>
+        <li><strong>趴下</strong>：腳往後跳或踩到平板撐位置，然後整個人趴下去，<strong>胸部必須碰地</strong>——這是硬規定，沒碰到不算</li>
+        <li><strong>起身（關鍵省力技巧！）</strong>：趴在地上後要站起來，有兩種方式——
+          <br>❌ <strong>跳起法</strong>：雙腳同時跳到手旁邊再站起。動作快但非常耗體力，心率飆高。
+          <br>✅ <strong>踩步法（推薦）</strong>：先把一隻腳踩到手旁邊，再踩另一隻腳，像爬起來一樣站好。<strong>省力約 30%</strong>，頂尖選手也用這招。60m 下來差距非常大！</li>
+        <li><strong>跳躍</strong>：站好後立定跳遠往前跳。<strong>雙腳必須同時起跳、同時落地</strong>（不能單腳跳）。方向往「前」不是往「上」，手臂前甩帶動量</li>
+        <li><strong>落地</strong>：屈膝緩衝穩住，<strong>不能往前走步</strong>，直接就地趴下做下一個</li>
       </ul>
 
       <div class="ch-section-title">💪 訓練方向</div>
       <ul class="ch-list">
-        <li>60m 約需 40-60 下波比跳前進</li>
-        <li>從 20m 開始，每週加 10m 距離</li>
-        <li>另外練習立定跳遠連續 50m（分開訓練）</li>
-        <li>起身時用踩步法，比跳起省 30% 體力</li>
-        <li>輔助訓練：箱式跳、深蹲跳</li>
+        <li>一般人每跳約 1-1.5m，60m 約需 <strong>40-60 下</strong></li>
+        <li>從 20m 開始，每週加 10m，比賽前至少模擬一次完整 60m</li>
+        <li>單獨練「連續立定跳遠 50m」強化跳躍爆發力</li>
+        <li>起身一律用踩步法，從訓練就養成習慣</li>
+        <li>輔助訓練：箱式跳（Box Jump）、深蹲跳（Squat Jump）</li>
+        <li>⚠️ 在跑步或其他訓練後做，模擬比賽中的疲勞狀態</li>
       </ul>
 
       <div class="ch-section-title">🏁 比賽策略（非常重要）</div>
       <div class="strategy-box">
         ☠️ 這關決定你是走出去還是爬出去。<br><br>
         • <strong>不要每跳都跳最遠</strong>——短而穩定的節奏 &gt; 拼命跳遠然後趴地休息<br>
-        • 需要休息時，<strong>躺在地板上</strong>（心率比站著更快下降）<br>
-        • 心理切割成 4 段 × 15m，一段一段完成<br>
-        • <strong>前三關省力，是為了這一關</strong>
+        • 需要休息時，<strong>趴在地板上休息</strong>（心率比站著喘下降更快）<br>
+        • 心理切割成 <strong>4 段 × 15m</strong>，完成一段就是小勝利<br>
+        • <strong>前三關省力，全部都是為了這一關</strong><br>
+        • 最忌諱：前面逞強 → 波比跳做到一半趴在地上爬不起來
       </div>
     </div>
   </div>
