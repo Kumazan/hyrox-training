@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KUMA'S WAR ROOM — 搖滾路跑 肌肉組 4/18</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #181818;
+    --surface: #1e1e1e;
+    --border: #2a2a2a;
+    --accent: #e63946;
+    --accent2: #ff6b35;
+    --gold: #f4a261;
+    --green: #2dc653;
+    --cyan: #4cc9f0;
+    --text: #f0f0f0;
+    --text2: #a0a0a0;
+    --text3: #666;
+    --danger: #ff3333;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ─── NOISE TEXTURE OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--accent);
+    padding: 0 1rem;
+  }
+
+  .nav-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  nav a {
+    color: var(--text2);
+    text-decoration: none;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.9rem 0.75rem;
+    white-space: nowrap;
+    transition: color 0.2s;
+    flex-shrink: 0;
+  }
+
+  nav a:hover, nav a.active { color: var(--accent); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 6rem 1.5rem 3rem;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 20%, rgba(230,57,70,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 80% 80%, rgba(255,107,53,0.1) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    border: 1px solid var(--accent);
+    padding: 0.3rem 1rem;
+    display: inline-block;
+  }
+
+  .hero-title {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: clamp(2.8rem, 12vw, 6rem);
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-title .line1 { color: var(--text); display: block; }
+  .hero-title .line2 { color: var(--accent); display: block; }
+  .hero-title .line3 {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--text3);
+    display: block;
+    font-size: clamp(1.8rem, 8vw, 4rem);
+  }
+
+  .hero-subtitle {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    font-weight: 600;
+    color: var(--text2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 1rem 0 2rem;
+  }
+
+  /* ─── COUNTDOWN ─── */
+  .countdown {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin: 1.5rem 0 2rem;
+  }
+
+  .cd-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--accent);
+    padding: 0.8rem 1.2rem;
+    min-width: 70px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cd-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(230,57,70,0.05) 0%, transparent 100%);
+  }
+
+  .cd-num {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 2.2rem;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+  }
+
+  .cd-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text3);
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  /* ─── RACE OVERVIEW BADGES ─── */
+  .race-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+
+  .badge {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.9rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--text2);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .badge span { color: var(--accent); }
+
+  /* ─── SECTION HEADERS ─── */
+  section {
+    padding: 4rem 1.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .section-header {
+    margin-bottom: 2.5rem;
+  }
+
+  .section-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--accent);
+    opacity: 0.4;
+    max-width: 80px;
+  }
+
+  .section-title {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: clamp(1.8rem, 6vw, 3rem);
+    text-transform: uppercase;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+
+  .section-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    margin: 0;
+  }
+
+  /* ─── CHALLENGE CARDS ─── */
+  .challenge-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .challenge-card.hard { border-left-color: var(--danger); }
+  .challenge-card.medium { border-left-color: var(--accent2); }
+  .challenge-card.easy { border-left-color: var(--green); }
+  .challenge-card.medium2 { border-left-color: var(--cyan); }
+
+  .challenge-header {
+    padding: 1.2rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+  }
+
+  .challenge-header:hover { background: rgba(255,255,255,0.03); }
+
+  .ch-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .ch-emoji {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+
+  .ch-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+  }
+
+  .ch-meta {
+    font-size: 0.75rem;
+    color: var(--text2);
+    margin-top: 0.1rem;
+  }
+
+  .ch-penalty {
+    font-size: 0.65rem;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.5rem;
+    border: 1px solid;
+  }
+
+  .hard .ch-penalty { color: var(--danger); border-color: var(--danger); }
+  .medium .ch-penalty { color: var(--accent2); border-color: var(--accent2); }
+  .easy .ch-penalty { color: var(--green); border-color: var(--green); }
+  .medium2 .ch-penalty { color: var(--cyan); border-color: var(--cyan); }
+
+  .ch-toggle {
+    font-size: 1.2rem;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .challenge-card.open .ch-toggle { transform: rotate(180deg); }
+
+  .challenge-body {
+    display: none;
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .challenge-card.open .challenge-body { display: block; }
+
+  .ch-section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin: 1.2rem 0 0.6rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 0.4rem;
+  }
+
+  .ch-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .ch-list li {
+    font-size: 0.9rem;
+    color: var(--text2);
+    display: flex;
+    gap: 0.6rem;
+    align-items: flex-start;
+  }
+
+  .ch-list li::before {
+    content: '▸';
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 0.05em;
+  }
+
+  .hard .ch-list li::before { color: var(--danger); }
+  .easy .ch-list li::before { color: var(--green); }
+  .medium2 .ch-list li::before { color: var(--cyan); }
+  .medium .ch-list li::before { color: var(--accent2); }
+
+  .strategy-box {
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--gold);
+    padding: 0.8rem 1rem;
+    margin-top: 0.6rem;
+    font-size: 0.88rem;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  .hard-badge {
+    display: inline-block;
+    background: var(--danger);
+    color: white;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 0.15rem 0.5rem;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+  }
+
+  /* ─── WEEK PLAN ─── */
+  .week-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+
+  .week-header {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+    background: linear-gradient(90deg, rgba(230,57,70,0.07) 0%, transparent 100%);
+  }
+
+  .week-header:hover { background: linear-gradient(90deg, rgba(230,57,70,0.12) 0%, transparent 100%); }
+
+  .week-block.travel .week-header {
+    background: linear-gradient(90deg, rgba(76,201,240,0.08) 0%, transparent 100%);
+  }
+
+  .week-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 900;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .week-phase {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-top: 0.1rem;
+  }
+
+  .travel .week-phase { color: var(--cyan); }
+
+  .week-progress-bar {
+    height: 3px;
+    background: var(--border);
+    margin: 0;
+  }
+
+  .week-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.5s ease;
+  }
+
+  .week-body {
+    display: none;
+    padding: 0 1rem 1rem;
+  }
+
+  .week-block.open .week-body { display: block; }
+
+  .day-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 0.7rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .day-row:last-child { border-bottom: none; }
+  .day-row:hover { background: rgba(255,255,255,0.02); }
+
+  .day-row.completed { opacity: 0.5; }
+
+  .day-check {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--text3);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0.1rem;
+    transition: all 0.2s;
+  }
+
+  .day-row.completed .day-check {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  .day-check::after {
+    content: '✓';
+    color: white;
+    font-size: 0.7rem;
+    font-weight: bold;
+    display: none;
+  }
+
+  .day-row.completed .day-check::after { display: block; }
+
+  .day-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    flex-shrink: 0;
+    width: 30px;
+    margin-top: 0.15rem;
+  }
+
+  .day-row.rest-day .day-label { color: var(--text3); }
+
+  .day-content {
+    flex: 1;
+  }
+
+  .day-date {
+    font-size: 0.7rem;
+    color: var(--text3);
+    margin-bottom: 0.1rem;
+  }
+
+  .day-workout {
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .day-row.rest-day .day-workout { color: var(--text3); }
+
+  .travel-info {
+    padding: 1rem;
+    border: 1px dashed var(--cyan);
+    margin: 0.5rem;
+    background: rgba(76,201,240,0.05);
+  }
+
+  .travel-item {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--text2);
+    padding: 0.3rem 0;
+  }
+
+  .travel-item .ti-icon { flex-shrink: 0; }
+
+  /* ─── RACE DAY ─── */
+  .race-day-timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .race-day-timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, var(--accent), var(--accent2), var(--danger));
+  }
+
+  .rdt-item {
+    position: relative;
+    margin-bottom: 1.5rem;
+  }
+
+  .rdt-item::before {
+    content: '';
+    position: absolute;
+    left: -1.75rem;
+    top: 0.4rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+
+  .rdt-time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+
+  .rdt-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    margin-bottom: 0.3rem;
+  }
+
+  .rdt-desc {
+    font-size: 0.88rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  .rdt-tip {
+    margin-top: 0.4rem;
+    padding: 0.4rem 0.7rem;
+    background: rgba(244,162,97,0.08);
+    border-left: 2px solid var(--gold);
+    font-size: 0.82rem;
+    color: var(--gold);
+  }
+
+  /* ─── PROGRESS OVERVIEW ─── */
+  .progress-overview {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .progress-overall-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text3);
+    margin-bottom: 0.8rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .progress-overall-label .pct {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 1.5rem;
+    color: var(--accent);
+  }
+
+  .progress-bar-outer {
+    height: 8px;
+    background: var(--border);
+    overflow: hidden;
+  }
+
+  .progress-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.5s ease;
+  }
+
+  .progress-stats {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .ps-box {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+  }
+
+  .ps-num {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 1.5rem;
+    color: var(--text);
+    display: block;
+  }
+
+  .ps-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--text3);
+    text-transform: uppercase;
+  }
+
+  /* ─── KEY TIPS ─── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .tip-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: 2px solid var(--accent);
+    padding: 1rem;
+  }
+
+  .tip-card.warn { border-top-color: var(--danger); }
+  .tip-card.info { border-top-color: var(--cyan); }
+  .tip-card.good { border-top-color: var(--green); }
+  .tip-card.gold { border-top-color: var(--gold); }
+
+  .tip-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+  .tip-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+    color: var(--text);
+  }
+
+  .tip-text {
+    font-size: 0.82rem;
+    color: var(--text2);
+    line-height: 1.5;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 3rem 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-logo {
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 1.5rem;
+    color: var(--text3);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-text {
+    font-size: 0.8rem;
+    color: var(--text3);
+  }
+
+  .footer-text strong { color: var(--accent); }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(230,57,70,0.4); }
+    50% { box-shadow: 0 0 12px 3px rgba(230,57,70,0.2); }
+  }
+
+  @keyframes count-flip {
+    0% { transform: rotateX(90deg); opacity: 0; }
+    100% { transform: rotateX(0deg); opacity: 1; }
+  }
+
+  .cd-box { animation: pulse-glow 3s ease-in-out infinite; }
+
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── MOBILE FIXES ─── */
+  @media (max-width: 600px) {
+    .tips-grid { grid-template-columns: 1fr; }
+
+    .countdown { gap: 0.6rem; }
+
+    .cd-box { min-width: 58px; padding: 0.6rem 0.8rem; }
+    .cd-num { font-size: 1.8rem; }
+
+    .hero-title { font-size: clamp(2.2rem, 14vw, 4rem); }
+
+    .challenge-header { padding: 1rem; }
+    .challenge-body { padding: 0 1rem 1rem; }
+
+    .week-header { padding: 0.8rem 1rem; }
+
+    .progress-stats { gap: 0.5rem; }
+  }
+
+  /* ─── SCROLL NAV INDICATOR ─── */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    z-index: 200;
+    transition: width 0.1s;
+  }
+
+  /* ─── CONFETTI on 100% ─── */
+  .victory-banner {
+    display: none;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    font-family: 'Black Ops One', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+    position: fixed;
+    bottom: 1rem;
+    left: 1rem;
+    right: 1rem;
+    z-index: 500;
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .victory-banner.show { display: block; }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#hero">🏠 首頁</a>
+    <a href="#challenges">⚔️ 攻略</a>
+    <a href="#plan">📅 計畫</a>
+    <a href="#raceday">🏁 比賽日</a>
+    <a href="#checklist">✅ 打卡</a>
+  </div>
+</nav>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<div id="hero">
+  <div class="hero-bg"></div>
+
+  <div class="hero-label">KUMA'S WAR ROOM · 2026</div>
+
+  <h1 class="hero-title">
+    <span class="line1">搖滾路跑</span>
+    <span class="line2">肌肉組</span>
+    <span class="line3">ROCK 'N' ROLL TAIPEI</span>
+  </h1>
+
+  <p class="hero-subtitle">4月18日（六）· 決戰日倒數</p>
+
+  <div class="countdown">
+    <div class="cd-box">
+      <span class="cd-num" id="cd-days">--</span>
+      <span class="cd-label">天</span>
+    </div>
+    <div class="cd-box">
+      <span class="cd-num" id="cd-hours">--</span>
+      <span class="cd-label">時</span>
+    </div>
+    <div class="cd-box">
+      <span class="cd-num" id="cd-mins">--</span>
+      <span class="cd-label">分</span>
+    </div>
+    <div class="cd-box">
+      <span class="cd-num" id="cd-secs">--</span>
+      <span class="cd-label">秒</span>
+    </div>
+  </div>
+
+  <div class="race-badges">
+    <div class="badge">🏃 <span>3.5K</span> 路跑</div>
+    <div class="badge">🏋️ <span>4</span> 關體能挑戰</div>
+    <div class="badge">⚖️ 最重 <span>48kg</span></div>
+    <div class="badge">📏 最長距離 <span>60m</span></div>
+    <div class="badge">⏱️ 失敗罰時 <span>+30s~+60s</span></div>
+  </div>
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ CHALLENGES ═══════════════ -->
+<section id="challenges" class="fade-in">
+  <div class="section-header">
+    <div class="section-tag">CHAPTER 02</div>
+    <h2 class="section-title">挑戰攻略</h2>
+    <p style="color:var(--text2); font-size:0.9rem; margin-top:0.5rem;">四關連環殺。熟悉每一關，才能在跑完 3.5K 後撐著完賽。</p>
+  </div>
+
+  <!-- FARMER WALK -->
+  <div class="challenge-card easy" id="card-farmer">
+    <div class="challenge-header" onclick="toggleCard('card-farmer')">
+      <div class="ch-left">
+        <div class="ch-emoji">🧲</div>
+        <div>
+          <div class="ch-name">啞鈴農夫走路</div>
+          <div class="ch-meta">20m · 24kg × 2 · 罰時 +30s</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span class="ch-penalty">+30s</span>
+        <span class="ch-toggle">▼</span>
+      </div>
+    </div>
+    <div class="challenge-body">
+      <div class="ch-section-title">🔧 技術要領</div>
+      <ul class="ch-list">
+        <li>用硬舉姿勢拾起啞鈴，不要弓背</li>
+        <li>用力握緊把手，前臂繃緊</li>
+        <li>核心鎖定，肩膀往後下壓，胸口挺</li>
+        <li>步伐小而快，不要大步晃動</li>
+        <li>重心保持置中，身體不要左右歪</li>
+      </ul>
+
+      <div class="ch-section-title">💪 訓練方向</div>
+      <ul class="ch-list">
+        <li>重訓日加入農夫走路：3-4 組 × 20m</li>
+        <li>重量從輕慢慢建立到比賽重量（48kg 總重）</li>
+        <li>訓練握力：懸吊（Dead Hang）、粗繩划船</li>
+      </ul>
+
+      <div class="ch-section-title">🏁 比賽策略</div>
+      <div class="strategy-box">
+        ⚡ 這是四關中最輕鬆的一關！約 15-20 秒就能過。<br>
+        目標：全程不放手，出發前深吸一口氣，不要浪費體力。<br>
+        <strong>把精力省下來給後面的波比跳。</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- LUNGES -->
+  <div class="challenge-card medium" id="card-lunges">
+    <div class="challenge-header" onclick="toggleCard('card-lunges')">
+      <div class="ch-left">
+        <div class="ch-emoji">🚶</div>
+        <div>
+          <div class="ch-name">負重弓箭步</div>
+          <div class="ch-meta">20m · 24kg · 罰時 +30s</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span class="ch-penalty">+30s</span>
+        <span class="ch-toggle">▼</span>
+      </div>
+    </div>
+    <div class="challenge-body">
+      <div class="ch-section-title">🔧 技術要領</div>
+      <ul class="ch-list">
+        <li>重量以 Goblet 姿勢抱在胸前（不要放肩上）</li>
+        <li>後腳膝蓋確實碰地，前腳站直再邁下一步</li>
+        <li>步伐較短、較controlled，上身保持直立</li>
+        <li>不要彎腰駝背，核心持續出力</li>
+      </ul>
+
+      <div class="ch-section-title">💪 訓練方向</div>
+      <ul class="ch-list">
+        <li>每週練 2-3 組 × 20m 負重弓箭步</li>
+        <li>從 16kg 開始，逐步加到 24kg</li>
+        <li>加入保加利亞分腿蹲強化單腿力量</li>
+        <li>⚠️ 記得在跑步後練習，模擬比賽疲勞感</li>
+      </ul>
+
+      <div class="ch-section-title">🏁 比賽策略</div>
+      <div class="strategy-box">
+        🌬️ 不要趕。呼吸節奏：下去吸氣，站起來吐氣。<br>
+        約 12-16 步走完 20m，預計 ~1 分鐘。<br>
+        跑完步後腿已經很累——<strong>動作寧慢勿亂</strong>，失手罰 30s 很虧。
+      </div>
+    </div>
+  </div>
+
+  <!-- WALL BALL -->
+  <div class="challenge-card medium2" id="card-wallball">
+    <div class="challenge-header" onclick="toggleCard('card-wallball')">
+      <div class="ch-left">
+        <div class="ch-emoji">🏐</div>
+        <div>
+          <div class="ch-name">藥球深蹲拋</div>
+          <div class="ch-meta">20 下 · 6kg · 罰時 +60s</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span class="ch-penalty" style="color:var(--danger); border-color:var(--danger)">+60s ⚠️</span>
+        <span class="ch-toggle">▼</span>
+      </div>
+    </div>
+    <div class="challenge-body">
+      <div class="ch-section-title">🔧 技術要領</div>
+      <ul class="ch-list">
+        <li>距牆壁約 50cm 站立</li>
+        <li>雙手托在球的下方（不是側面！）</li>
+        <li>深蹲至大腿平行或以下</li>
+        <li>起身時用髖部力量往上拋，不是只用手</li>
+        <li>接球後立即流暢進入下一個深蹲，不停頓</li>
+      </ul>
+
+      <div class="ch-section-title">💪 訓練方向</div>
+      <ul class="ch-list">
+        <li>3-4 組 × 10-15 下，目標能連續完成 20 下</li>
+        <li>加入前蹲舉（Front Squat）和過頭推舉</li>
+        <li>注意：失手罰 <strong style="color:var(--danger)">+60s</strong>，這關最怕球掉</li>
+      </ul>
+
+      <div class="ch-section-title">🏁 比賽策略</div>
+      <div class="strategy-box">
+        🎯 只有 20 下，目標一口氣連續完成。<br>
+        節奏約 1 下 / 2-3 秒，穩定勝於求快。<br>
+        <strong>絕對不能讓球掉地——罰 60s 是最大的時間浪費。</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- BURPEE BROAD JUMP -->
+  <div class="challenge-card hard" id="card-bbj">
+    <div class="challenge-header" onclick="toggleCard('card-bbj')">
+      <div class="ch-left">
+        <div class="ch-emoji">💀</div>
+        <div>
+          <div class="ch-name">波比跳前進 <span class="hard-badge">最難</span></div>
+          <div class="ch-meta">60m · 胸觸地 + 跳躍前進 · 罰時 +30s</div>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span class="ch-penalty">+30s</span>
+        <span class="ch-toggle">▼</span>
+      </div>
+    </div>
+    <div class="challenge-body">
+      <div class="ch-section-title">🔧 技術要領（規則是關鍵）</div>
+      <ul class="ch-list">
+        <li>💥 <strong>胸部必須碰地</strong>——這是硬規定</li>
+        <li>起身可以用<strong>踩步方式</strong>（不用跳起），省更多力氣</li>
+        <li>跳躍時雙腳同時起跳、同時落地</li>
+        <li>跳要往前，不要往上蹦</li>
+        <li>落地後不能走路，直接下一個波比</li>
+        <li>手放地時距腳最多 30cm，不要伸太遠</li>
+      </ul>
+
+      <div class="ch-section-title">💪 訓練方向</div>
+      <ul class="ch-list">
+        <li>60m 約需 40-60 下波比跳前進</li>
+        <li>從 20m 開始，每週加 10m 距離</li>
+        <li>另外練習立定跳遠連續 50m（分開訓練）</li>
+        <li>起身時用踩步法，比跳起省 30% 體力</li>
+        <li>輔助訓練：箱式跳、深蹲跳</li>
+      </ul>
+
+      <div class="ch-section-title">🏁 比賽策略（非常重要）</div>
+      <div class="strategy-box">
+        ☠️ 這關決定你是走出去還是爬出去。<br><br>
+        • <strong>不要每跳都跳最遠</strong>——短而穩定的節奏 &gt; 拼命跳遠然後趴地休息<br>
+        • 需要休息時，<strong>躺在地板上</strong>（心率比站著更快下降）<br>
+        • 心理切割成 4 段 × 15m，一段一段完成<br>
+        • <strong>前三關省力，是為了這一關</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ TRAINING PLAN ═══════════════ -->
+<section id="plan" class="fade-in">
+  <div class="section-header">
+    <div class="section-tag">CHAPTER 03</div>
+    <h2 class="section-title">訓練計畫</h2>
+    <p style="color:var(--text2); font-size:0.9rem; margin-top:0.5rem;">5週備戰。點開每週查看訓練內容，打卡完成。</p>
+  </div>
+
+  <!-- Progress Overview -->
+  <div class="progress-overview">
+    <div class="progress-overall-label">
+      <span>整體訓練進度</span>
+      <span class="pct" id="overallPct">0%</span>
+    </div>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="overallBar" style="width:0%"></div>
+    </div>
+    <div class="progress-stats">
+      <div class="ps-box">
+        <span class="ps-num" id="statDone">0</span>
+        <span class="ps-label">已完成</span>
+      </div>
+      <div class="ps-box">
+        <span class="ps-num" id="statLeft">0</span>
+        <span class="ps-label">剩餘</span>
+      </div>
+      <div class="ps-box">
+        <span class="ps-num" id="statTotal">0</span>
+        <span class="ps-label">總訓練日</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 1 -->
+  <div class="week-block" id="week-1">
+    <div class="week-header" onclick="toggleWeek('week-1')">
+      <div>
+        <div class="week-title">第 1 週｜3/9 – 3/14</div>
+        <div class="week-phase">🔥 打底期</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span id="prog-week-1" style="font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--text3);">0/5</span>
+        <span style="font-size:1.1rem; transition:transform 0.3s;" class="wtoggle">▼</span>
+      </div>
+    </div>
+    <div class="week-progress-bar"><div class="week-progress-fill" id="wpf-week-1" style="width:0%"></div></div>
+    <div class="week-body">
+      <div class="day-row" data-id="w1d1" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">一</div>
+        <div class="day-content">
+          <div class="day-date">3/9</div>
+          <div class="day-workout">🏃 走跑間歇 2K（跑 1分 / 走 1分）</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w1d2" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">二</div>
+        <div class="day-content">
+          <div class="day-date">3/10</div>
+          <div class="day-workout">🏋️ 正常重訓 + 農夫走路 3×20m</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w1d3" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">三</div>
+        <div class="day-content">
+          <div class="day-date">3/11</div>
+          <div class="day-workout">😴 休息日</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w1d4" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">四</div>
+        <div class="day-content">
+          <div class="day-date">3/12</div>
+          <div class="day-workout">🏃 走跑間歇 2.5K（跑 2分 / 走 1分）</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w1d5" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">五</div>
+        <div class="day-content">
+          <div class="day-date">3/13</div>
+          <div class="day-workout">🏋️ 正常重訓 + 負重弓箭步 3×10 步</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w1d6" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">六</div>
+        <div class="day-content">
+          <div class="day-date">3/14</div>
+          <div class="day-workout">🐢 慢跑 2K（盡量不停下來）</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w1d7" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">日</div>
+        <div class="day-content">
+          <div class="day-date">3/15</div>
+          <div class="day-workout">😴 休息日</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 2 (pre-travel sprint) -->
+  <div class="week-block" id="week-2">
+    <div class="week-header" onclick="toggleWeek('week-2')">
+      <div>
+        <div class="week-title">第 2 週｜3/16 – 3/17</div>
+        <div class="week-phase">⚡ 出國前衝刺</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span id="prog-week-2" style="font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--text3);">0/2</span>
+        <span style="font-size:1.1rem; transition:transform 0.3s;" class="wtoggle">▼</span>
+      </div>
+    </div>
+    <div class="week-progress-bar"><div class="week-progress-fill" id="wpf-week-2" style="width:0%"></div></div>
+    <div class="week-body">
+      <div class="day-row" data-id="w2d1" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">一</div>
+        <div class="day-content">
+          <div class="day-date">3/16</div>
+          <div class="day-workout">🏃+💀 慢跑 2.5K + 波比跳前進 3組×20m</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w2d2" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">二</div>
+        <div class="day-content">
+          <div class="day-date">3/17</div>
+          <div class="day-workout">🏋️ 重訓 + 模擬四關挑戰（全部）</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w2d3" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">三</div>
+        <div class="day-content">
+          <div class="day-date">3/18</div>
+          <div class="day-workout">🧳 輕活動或休息，打包行李準備出發</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAVEL WEEK -->
+  <div class="week-block travel" id="week-travel">
+    <div class="week-header" onclick="toggleWeek('week-travel')">
+      <div>
+        <div class="week-title">✈️ 出國週｜3/18 – 3/24</div>
+        <div class="week-phase" style="color:var(--cyan)">🌍 維持就好，享受旅程</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span style="font-size:1.1rem; transition:transform 0.3s;" class="wtoggle">▼</span>
+      </div>
+    </div>
+    <div class="week-body">
+      <div class="travel-info">
+        <div class="travel-item"><span class="ti-icon">🚶</span> <span>到處走路觀光（算數！），不用刻意跑步</span></div>
+        <div class="travel-item"><span class="ti-icon">🏃</span> <span>飯店健身房：跑步機 15-20 分鐘，一週 2-3 次</span></div>
+        <div class="travel-item"><span class="ti-icon">💀</span> <span>每天在飯店房間做 10 個波比跳</span></div>
+        <div class="travel-item"><span class="ti-icon">😎</span> <span>不要有壓力，充飽電回來再衝</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 3 (return) -->
+  <div class="week-block" id="week-3">
+    <div class="week-header" onclick="toggleWeek('week-3')">
+      <div>
+        <div class="week-title">第 3 週｜3/25 – 3/30</div>
+        <div class="week-phase">🔄 恢復 + 加量</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span id="prog-week-3" style="font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--text3);">0/4</span>
+        <span style="font-size:1.1rem; transition:transform 0.3s;" class="wtoggle">▼</span>
+      </div>
+    </div>
+    <div class="week-progress-bar"><div class="week-progress-fill" id="wpf-week-3" style="width:0%"></div></div>
+    <div class="week-body">
+      <div class="day-row" data-id="w3d1" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">三</div>
+        <div class="day-content">
+          <div class="day-date">3/25</div>
+          <div class="day-workout">🏃 慢跑 2K（找回跑步感）</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w3d2" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">四</div>
+        <div class="day-content">
+          <div class="day-date">3/26</div>
+          <div class="day-workout">🏋️ 重訓 + 挑戰模擬（用比賽重量）</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w3d3" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">五</div>
+        <div class="day-content">
+          <div class="day-date">3/27</div>
+          <div class="day-workout">😴 休息日</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w3d4" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">六</div>
+        <div class="day-content">
+          <div class="day-date">3/28</div>
+          <div class="day-workout">🏃 慢跑 3K（第一次接近比賽距離！）</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w3d5" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">日</div>
+        <div class="day-content">
+          <div class="day-date">3/29</div>
+          <div class="day-workout">💀+🏐 波比跳前進 3組×20m + 藥球深蹲拋 3×10</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w3d6" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">一</div>
+        <div class="day-content">
+          <div class="day-date">3/30</div>
+          <div class="day-workout">😴 休息日</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 4 (main) -->
+  <div class="week-block" id="week-4">
+    <div class="week-header" onclick="toggleWeek('week-4')">
+      <div>
+        <div class="week-title">第 4 週｜3/31 – 4/6</div>
+        <div class="week-phase">💥 主訓練週</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span id="prog-week-4" style="font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--text3);">0/5</span>
+        <span style="font-size:1.1rem; transition:transform 0.3s;" class="wtoggle">▼</span>
+      </div>
+    </div>
+    <div class="week-progress-bar"><div class="week-progress-fill" id="wpf-week-4" style="width:0%"></div></div>
+    <div class="week-body">
+      <div class="day-row" data-id="w4d1" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">二</div>
+        <div class="day-content">
+          <div class="day-date">4/1</div>
+          <div class="day-workout">🏃 慢跑 3.5K（完整比賽距離！首次達成）</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w4d2" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">三</div>
+        <div class="day-content">
+          <div class="day-date">4/2</div>
+          <div class="day-workout">🏋️ 重訓 + 全挑戰模擬（比賽重量，按順序，跑後接）</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w4d3" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">四</div>
+        <div class="day-content">
+          <div class="day-date">4/3</div>
+          <div class="day-workout">😴 休息日</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w4d4" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">五</div>
+        <div class="day-content">
+          <div class="day-date">4/4</div>
+          <div class="day-workout">🏃+💀 慢跑 2K + 波比跳前進 40m（分段）</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w4d5" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">六</div>
+        <div class="day-content">
+          <div class="day-date">4/5</div>
+          <div class="day-workout">🧲+🚶 農夫走路 + 弓箭步背靠背，練習轉換節奏</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w4d6" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">日</div>
+        <div class="day-content">
+          <div class="day-date">4/6</div>
+          <div class="day-workout">🏃 慢跑 3K</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w4d7" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">一</div>
+        <div class="day-content">
+          <div class="day-date">4/7</div>
+          <div class="day-workout">😴 休息日</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 5 (simulation) -->
+  <div class="week-block" id="week-5">
+    <div class="week-header" onclick="toggleWeek('week-5')">
+      <div>
+        <div class="week-title">第 5 週｜4/8 – 4/11</div>
+        <div class="week-phase">🎯 賽前模擬週</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span id="prog-week-5" style="font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--text3);">0/4</span>
+        <span style="font-size:1.1rem; transition:transform 0.3s;" class="wtoggle">▼</span>
+      </div>
+    </div>
+    <div class="week-progress-bar"><div class="week-progress-fill" id="wpf-week-5" style="width:0%"></div></div>
+    <div class="week-body">
+      <div class="day-row" data-id="w5d1" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">二</div>
+        <div class="day-content">
+          <div class="day-date">4/8</div>
+          <div class="day-workout">🔥 完整比賽模擬：跑 3.5K → 農夫走 → 弓箭步 → 藥球拋 → 波比跳 60m（全用比賽重量）</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w5d2" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">三</div>
+        <div class="day-content">
+          <div class="day-date">4/9</div>
+          <div class="day-workout">🚶 輕鬆散步或完全休息</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w5d3" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">四</div>
+        <div class="day-content">
+          <div class="day-date">4/10</div>
+          <div class="day-workout">🏃+💀 慢跑 2K + 波比跳前進 20m（輕量維持）</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="w5d4" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">五</div>
+        <div class="day-content">
+          <div class="day-date">4/11</div>
+          <div class="day-workout">🏋️ 輕量挑戰複習（動作確認，不追求強度）</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w5d5" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">六</div>
+        <div class="day-content">
+          <div class="day-date">4/12</div>
+          <div class="day-workout">😴 休息</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="w5d6" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">日</div>
+        <div class="day-content">
+          <div class="day-date">4/13</div>
+          <div class="day-workout">😴 休息</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAPER WEEK -->
+  <div class="week-block" id="week-taper">
+    <div class="week-header" onclick="toggleWeek('week-taper')">
+      <div>
+        <div class="week-title">賽前週｜4/12 – 4/17</div>
+        <div class="week-phase">🧘 減量恢復，蓄積爆發</div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.7rem;">
+        <span id="prog-week-taper" style="font-family:'Barlow Condensed',sans-serif; font-size:0.8rem; color:var(--text3);">0/3</span>
+        <span style="font-size:1.1rem; transition:transform 0.3s;" class="wtoggle">▼</span>
+      </div>
+    </div>
+    <div class="week-progress-bar"><div class="week-progress-fill" id="wpf-week-taper" style="width:0%"></div></div>
+    <div class="week-body">
+      <div class="day-row" data-id="wtd1" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">日</div>
+        <div class="day-content">
+          <div class="day-date">4/13</div>
+          <div class="day-workout">🏃 輕鬆慢跑 2K</div>
+        </div>
+      </div>
+      <div class="day-row" data-id="wtd2" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">一</div>
+        <div class="day-content">
+          <div class="day-date">4/14</div>
+          <div class="day-workout">🏋️ 以比賽重量走過所有關卡，一半訓練量</div>
+        </div>
+      </div>
+      <div class="day-row rest-day" data-id="wtd3" onclick="toggleDay(this)">
+        <div class="day-check"></div>
+        <div class="day-label">二~四</div>
+        <div class="day-content">
+          <div class="day-date">4/15 – 4/17</div>
+          <div class="day-workout">😴 完全休息，只有散步。4/17 早睡。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ RACE DAY ═══════════════ -->
+<section id="raceday" class="fade-in">
+  <div class="section-header">
+    <div class="section-tag">CHAPTER 04</div>
+    <h2 class="section-title">比賽日策略</h2>
+    <p style="color:var(--text2); font-size:0.9rem; margin-top:0.5rem;">4月18日（六）。你已準備好。<br>這是執行計畫的一天，不是測試極限的一天。</p>
+  </div>
+
+  <!-- Key Tips Grid -->
+  <div class="tips-grid" style="margin-bottom:2rem;">
+    <div class="tip-card warn">
+      <div class="tip-icon">🚦</div>
+      <div class="tip-title">出發不要衝太快</div>
+      <div class="tip-text">起跑會被現場氣氛拉著跑，<strong>忍住</strong>。配速 6:30-7:00/km，相信你的計畫。</div>
+    </div>
+    <div class="tip-card gold">
+      <div class="tip-icon">💨</div>
+      <div class="tip-title">每一關省力</div>
+      <div class="tip-text">前三關的目的是<strong>省力給波比跳</strong>，不是秀給別人看的。</div>
+    </div>
+    <div class="tip-card good">
+      <div class="tip-icon">🧠</div>
+      <div class="tip-title">心理切割</div>
+      <div class="tip-text">波比跳 60m 切成 4 段 × 15m。<br>一段完成就是勝利。</div>
+    </div>
+    <div class="tip-card info">
+      <div class="tip-icon">😴</div>
+      <div class="tip-title">休息時躺下</div>
+      <div class="tip-text">需要喘息就<strong>躺在地板上</strong>，不要站著。心率下降快 30%。</div>
+    </div>
+  </div>
+
+  <!-- Timeline -->
+  <div class="race-day-timeline">
+
+    <div class="rdt-item">
+      <div class="rdt-time">第 1 關 · 0-25 分</div>
+      <div class="rdt-title">🏃 3.5K 路跑</div>
+      <div class="rdt-desc">目標配速：6:30–7:00 /km<br>預估完成：23–25 分鐘</div>
+      <div class="rdt-tip">⚠️ 不要跟人拼速度。跑完還有四關，保留 70% 的力氣。</div>
+    </div>
+
+    <div class="rdt-item">
+      <div class="rdt-time">第 2 關 · 約 +20 秒</div>
+      <div class="rdt-title">🧲 農夫走路 20m（24kg×2）</div>
+      <div class="rdt-desc">這關最輕鬆。目標：不放手，穩定走完。</div>
+      <div class="rdt-tip">✅ 深呼一口氣，小步快走，15–20 秒完成。</div>
+    </div>
+
+    <div class="rdt-item">
+      <div class="rdt-time">第 3 關 · 約 +60 秒</div>
+      <div class="rdt-title">🚶 負重弓箭步 20m（24kg）</div>
+      <div class="rdt-desc">呼吸節奏：下去吸，起來吐。<br>預估：12–16 步，約 1 分鐘。</div>
+      <div class="rdt-tip">🌬️ 不要停，節奏比速度重要。</div>
+    </div>
+
+    <div class="rdt-item">
+      <div class="rdt-time">第 4 關 · 約 +40 秒</div>
+      <div class="rdt-title">🏐 藥球深蹲拋 20下（6kg）</div>
+      <div class="rdt-desc">只有 20 下，一口氣完成。<br>節奏穩，<strong>千萬別讓球掉地（罰 60s！）</strong></div>
+      <div class="rdt-tip">🎯 手托球底，用髖拋出。接到球就深蹲，不停頓。</div>
+    </div>
+
+    <div class="rdt-item">
+      <div class="rdt-time">第 5 關 · 約 +5 分</div>
+      <div class="rdt-title">💀 波比跳前進 60m（胸觸地）</div>
+      <div class="rdt-desc">最後一關。切成 15m × 4 段。<br>短跳穩定 &gt; 長跳休息。<br>需要休息就躺下，不要站著。</div>
+      <div class="rdt-tip">🏁 過終點線的那一刻，你贏了。</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ CHECKLIST ═══════════════ -->
+<section id="checklist" class="fade-in">
+  <div class="section-header">
+    <div class="section-tag">CHAPTER 05</div>
+    <h2 class="section-title">打卡板</h2>
+    <p style="color:var(--text2); font-size:0.9rem; margin-top:0.5rem;">完成訓練就打勾。進度存在手機裡，下次開啟還在。</p>
+  </div>
+
+  <div style="text-align:center; margin-bottom:1rem;">
+    <button onclick="resetAll()" style="background:none; border:1px solid var(--text3); color:var(--text3); padding:0.5rem 1.2rem; font-family:'Barlow Condensed',sans-serif; font-size:0.75rem; letter-spacing:0.1em; cursor:pointer; text-transform:uppercase;">
+      重置所有進度
+    </button>
+  </div>
+
+  <p style="color:var(--text3); font-size:0.8rem; text-align:center;">👆 點擊訓練計畫中的每一天即可打卡</p>
+</section>
+
+<footer>
+  <div class="footer-logo">KUMA × ROCK 'N' ROLL</div>
+  <p class="footer-text">決戰日：<strong>2026.04.18</strong>（六）· 臺北</p>
+  <p class="footer-text" style="margin-top:0.5rem; font-size:0.7rem;">搖滾路跑 肌肉組 · 你的第一場比賽</p>
+</footer>
+
+<div class="victory-banner" id="victoryBanner">
+  🎉 100% 完成！你已準備好上場了！KUMA IS READY! 🎉
+</div>
+
+<script>
+// ─── COUNTDOWN TIMER ───
+function updateCountdown() {
+  const race = new Date('2026-04-18T08:00:00+08:00');
+  const now = new Date();
+  const diff = race - now;
+
+  if (diff <= 0) {
+    document.getElementById('cd-days').textContent = '0';
+    document.getElementById('cd-hours').textContent = '0';
+    document.getElementById('cd-mins').textContent = '0';
+    document.getElementById('cd-secs').textContent = '0';
+    return;
+  }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+  const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+  document.getElementById('cd-days').textContent = days;
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cd-mins').textContent = String(mins).padStart(2,'0');
+  document.getElementById('cd-secs').textContent = String(secs).padStart(2,'0');
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ─── SCROLL PROGRESS ───
+window.addEventListener('scroll', () => {
+  const scrolled = window.scrollY;
+  const total = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = (scrolled / total) * 100;
+  document.getElementById('scrollProgress').style.width = pct + '%';
+});
+
+// ─── CHALLENGE CARDS ───
+function toggleCard(id) {
+  const card = document.getElementById(id);
+  card.classList.toggle('open');
+}
+
+// ─── WEEK BLOCKS ───
+function toggleWeek(id) {
+  const block = document.getElementById(id);
+  const isOpen = block.classList.contains('open');
+  block.classList.toggle('open');
+  const toggle = block.querySelector('.wtoggle');
+  if (toggle) toggle.style.transform = isOpen ? '' : 'rotate(180deg)';
+}
+
+// ─── localStorage HELPERS ───
+function getProgress() {
+  try { return JSON.parse(localStorage.getItem('hyrox-progress') || '{}'); }
+  catch { return {}; }
+}
+
+function saveProgress(p) {
+  localStorage.setItem('hyrox-progress', JSON.stringify(p));
+}
+
+// ─── DAY TOGGLE ───
+function toggleDay(el) {
+  const id = el.dataset.id;
+  const p = getProgress();
+  p[id] = !p[id];
+  saveProgress(p);
+  renderProgress();
+}
+
+// ─── RENDER ALL PROGRESS ───
+// Week configs: weekId → [dayIds...]
+const WEEKS = {
+  'week-1': ['w1d1','w1d2','w1d3','w1d4','w1d5','w1d6','w1d7'],
+  'week-2': ['w2d1','w2d2','w2d3'],
+  'week-3': ['w3d1','w3d2','w3d3','w3d4','w3d5','w3d6'],
+  'week-4': ['w4d1','w4d2','w4d3','w4d4','w4d5','w4d6','w4d7'],
+  'week-5': ['w5d1','w5d2','w5d3','w5d4','w5d5','w5d6'],
+  'week-taper': ['wtd1','wtd2','wtd3'],
+};
+
+// Trackable (non-rest but still click-able) — all days are trackable
+const TRACKABLE = {
+  'week-1': ['w1d1','w1d2','w1d4','w1d5','w1d6'], // 5 workout days
+  'week-2': ['w2d1','w2d2'], // 2
+  'week-3': ['w3d1','w3d2','w3d4','w3d5'], // 4
+  'week-4': ['w4d1','w4d2','w4d4','w4d5','w4d6'], // 5
+  'week-5': ['w5d1','w5d3','w5d4'], // 3 (keeping original 4 count but w5d2 is rest)
+  'week-taper': ['wtd1','wtd2'], // 2
+};
+
+// For overall progress, count only workout days (non-rest)
+const ALL_WORKOUT_IDS = Object.values(TRACKABLE).flat();
+
+function renderProgress() {
+  const p = getProgress();
+
+  // Render individual day rows
+  document.querySelectorAll('.day-row[data-id]').forEach(row => {
+    const id = row.dataset.id;
+    if (p[id]) row.classList.add('completed');
+    else row.classList.remove('completed');
+  });
+
+  // Per-week progress
+  Object.entries(TRACKABLE).forEach(([weekId, ids]) => {
+    const done = ids.filter(id => p[id]).length;
+    const total = ids.length;
+    const pct = total ? (done / total) * 100 : 0;
+
+    const fill = document.getElementById('wpf-' + weekId);
+    if (fill) fill.style.width = pct + '%';
+
+    const prog = document.getElementById('prog-' + weekId);
+    if (prog) prog.textContent = done + '/' + total;
+  });
+
+  // Overall progress
+  const done = ALL_WORKOUT_IDS.filter(id => p[id]).length;
+  const total = ALL_WORKOUT_IDS.length;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+
+  document.getElementById('overallPct').textContent = pct + '%';
+  document.getElementById('overallBar').style.width = pct + '%';
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statLeft').textContent = total - done;
+  document.getElementById('statTotal').textContent = total;
+
+  // Victory banner
+  if (pct === 100) {
+    document.getElementById('victoryBanner').classList.add('show');
+  } else {
+    document.getElementById('victoryBanner').classList.remove('show');
+  }
+}
+
+// ─── RESET ───
+function resetAll() {
+  if (confirm('確定要重置所有打卡進度嗎？')) {
+    localStorage.removeItem('hyrox-progress');
+    renderProgress();
+  }
+}
+
+// ─── FADE IN OBSERVER ───
+const fadeEls = document.querySelectorAll('.fade-in');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+fadeEls.forEach(el => observer.observe(el));
+
+// ─── NAV ACTIVE STATE ───
+const sections = document.querySelectorAll('section[id], div[id="hero"]');
+const navLinks = document.querySelectorAll('nav a');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + e.target.id);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -40% 0px' });
+
+sections.forEach(s => navObserver.observe(s));
+
+// ─── AUTO-OPEN CURRENT WEEK ───
+function autoOpenCurrentWeek() {
+  const today = new Date();
+  const weekRanges = [
+    { id: 'week-1', start: new Date('2026-03-09'), end: new Date('2026-03-15') },
+    { id: 'week-2', start: new Date('2026-03-15'), end: new Date('2026-03-18') },
+    { id: 'week-travel', start: new Date('2026-03-18'), end: new Date('2026-03-25') },
+    { id: 'week-3', start: new Date('2026-03-25'), end: new Date('2026-03-31') },
+    { id: 'week-4', start: new Date('2026-03-31'), end: new Date('2026-04-07') },
+    { id: 'week-5', start: new Date('2026-04-07'), end: new Date('2026-04-12') },
+    { id: 'week-taper', start: new Date('2026-04-12'), end: new Date('2026-04-19') },
+  ];
+
+  let opened = false;
+  weekRanges.forEach(w => {
+    if (today >= w.start && today < w.end) {
+      const block = document.getElementById(w.id);
+      if (block) {
+        block.classList.add('open');
+        const toggle = block.querySelector('.wtoggle');
+        if (toggle) toggle.style.transform = 'rotate(180deg)';
+        opened = true;
+      }
+    }
+  });
+
+  // If no current week, open week 1
+  if (!opened) {
+    const w1 = document.getElementById('week-1');
+    if (w1) {
+      w1.classList.add('open');
+      const toggle = w1.querySelector('.wtoggle');
+      if (toggle) toggle.style.transform = 'rotate(180deg)';
+    }
+  }
+}
+
+// ─── INIT ───
+renderProgress();
+autoOpenCurrentWeek();
+</script>
+</body>
+</html>
